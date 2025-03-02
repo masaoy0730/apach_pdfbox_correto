@@ -21,6 +21,12 @@ echo $JAVA_HOME
 curl -OL https://downloads.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
 ```
 sudoが使えない場合、インストールする。
+
+NAME="Amazon Linux"<br>
+VERSION="2"<br>
+ID_LIKE="centos rhel fedora"<br>
+なので、Red Hat系ディストリビューションのコマンドを利用。
+
 ```
 yum update #パッケージリスト更新
 yum install sudo #sudoのインストール

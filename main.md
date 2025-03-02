@@ -13,8 +13,8 @@ curl -OL https://downloads.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-
 sudoが使えない場合、インストールする。
 ```
 yum update #パッケージリスト更新
-yum install sudo //sudoのインストール
-usermod -aG wheel <ユーザー名> //ユーザー名の追加
+yum install sudo #sudoのインストール
+usermod -aG wheel <ユーザー名> #ユーザー名の追加
 ```
 
 ダウンロードしたアーカイブを解凍し、`/opt`に配置。シンボリックリンク `/opt/maven` を作成しておくと、将来バージョンを切り替える際に便利です。

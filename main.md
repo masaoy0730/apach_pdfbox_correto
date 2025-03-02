@@ -47,7 +47,10 @@ usermod --help
 ```
 usermod -aG wheel <ユーザー名> #ユーザー名の追加
 ```
-
+tarをインストール
+```
+sudo yum install tar
+```
 ダウンロードしたアーカイブを解凍し、`/opt`に配置。シンボリックリンク `/opt/maven` を作成しておくと、将来バージョンを切り替える際に便利です。
 ```
 sudo tar -xzvf apache-maven-3.9.9-bin.tar.gz -C /opt/

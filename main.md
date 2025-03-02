@@ -1,6 +1,16 @@
 ### Apach Mavenのインストール
 Bashを使ってLinux環境にMavenをインストールする手順。
 
+OSの名前やバージョン情報を確認
+```
+cat /etc/os-release
+```
+
+Linuxディストリビューションの詳細確認
+```
+lsb_release -a
+```
+
 Javaのインストールを確認。
 ```
 java -version

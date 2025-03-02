@@ -30,6 +30,21 @@ ID_LIKE="centos rhel fedora"<br>
 ```
 yum update #パッケージリスト更新
 yum install sudo #sudoのインストール
+```
+usermodがインストールされていなければ、インストール。
+```
+sudo yum install util-linux-user
+```
+`usermod`コマンドは管理者権限が必要。一般ユーザーで実行するとエラー発生。
+rootユーザーに切り替え:
+```
+su -
+```
+動作確認
+```
+usermod --help
+```
+```
 usermod -aG wheel <ユーザー名> #ユーザー名の追加
 ```
 

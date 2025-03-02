@@ -1,0 +1,2 @@
+# apach_pdfbox_correto
+Amazon corretoを使えるDockerにApach PDFBoxをインストールします。

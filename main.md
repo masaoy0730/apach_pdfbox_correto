@@ -1,3 +1,31 @@
+# MacでAmazon CorrettoをDocker上で動かす方法
+## 前提条件
+1.Docker Desktop for Macがインストールされていること。
+2.Amazon CorrettoのDockerイメージを使用するための基本的なコマンドライン操作が可能であること。
+
+Finderから「Docker.app」を起動し、Dockerが正常に動作していることを確認します。
+ターミナルで以下のコマンドを実行し、Dockerがインストールされているか確認します：
+```
+docker --version
+```
+## Amazon Correttoの公式イメージを取得
+•	Docker Hubには、Amazon Correttoの公式イメージが提供されています。
+•	以下のコマンドで必要なバージョンのCorrettoイメージを取得します：
+Amazon Corretto 11の場合：
+```
+docker pull amazoncorretto:11
+```
+• ダウンロードしたイメージを使ってコンテナを起動します。
+```
+docker run -it --name corretto-container amazoncorretto:11 /bin/bash
+```
+このコマンドで、`/bin/bash`シェルに入ります。コンテナ内でJava環境が利用可能です。
+
+コンテナ内で以下のコマンドを実行し、Java環境が正しく設定されているか確認します：
+```
+java -version
+```
+
 ### Apach Mavenのインストール
 Bashを使ってLinux環境にMavenをインストールする手順。
 

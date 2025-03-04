@@ -447,3 +447,143 @@ Hello
 Java
 World
 ```
+
+MavenプロジェクトでJavaをコンパイルして実行するには、以下の手順を実行します。
+
+---
+
+## **1. Mavenプロジェクトの作成**
+Mavenプロジェクトを作成するには、以下のコマンドを使用します。
+
+```bash
+mvn archetype:generate -DgroupId=com.example -DartifactId=myapp -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+
+- `groupId`: プロジェクトのグループ名（例: `com.example`）。
+- `artifactId`: プロジェクト名（例: `myapp`）。
+
+このコマンドを実行すると、以下のようなディレクトリ構造が作成されます：
+```
+myapp/
+├── pom.xml
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/App.java
+│   └── test/
+│       ├── java/
+│       │   └── com/example/AppTest.java
+```
+
+---
+
+## **2. Javaコードを記述**
+`src/main/java/com/example/App.java`に以下のようなコードを書きます：
+
+```java
+package com.example;
+
+public class App {
+    public static void main(String[] args) {
+        System.out.println("Hello, Maven!");
+    }
+}
+```
+
+---
+
+## **3. `pom.xml`の設定**
+`pom.xml`にJavaバージョンや依存関係を設定します。
+
+### **基本的な設定例**
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>myapp</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <!-- 必要な依存関係をここに追加 -->
+    </dependencies>
+</project>
+```
+
+- `<maven.compiler.source>`と`<maven.compiler.target>`でJavaバージョン（例: 11）を指定します。
+
+---
+
+## **4. Javaコードをコンパイル**
+以下のコマンドでプロジェクトをコンパイルします：
+
+```bash
+mvn compile
+```
+
+- コンパイルが成功すると、生成されたクラスファイルは`target/classes`ディレクトリに保存されます。
+
+---
+
+## **5. Javaコードを実行**
+Mavenで直接Javaコードを実行するには、`exec-maven-plugin`を使用します。
+
+### **`pom.xml`へのプラグイン追加**
+以下のプラグイン設定を`pom.xml`に追加します：
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.0.0</version>
+            <configuration>
+                <mainClass>com.example.App</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+
+### **実行コマンド**
+以下のコマンドでJavaコードを実行します：
+```bash
+mvn exec:java
+```
+
+---
+
+## **6. 実行可能JARファイルの作成と実行（オプション）**
+JavaアプリケーションをJARファイルとしてビルドし、実行可能にすることもできます。
+
+### **JARファイルのビルド**
+以下のコマンドでJARファイルを作成します：
+```bash
+mvn package
+```
+
+- 成功すると、`target/`ディレクトリ内にJARファイルが生成されます（例: `myapp-1.0-SNAPSHOT.jar`）。
+
+### **JARファイルの実行**
+以下のコマンドで生成されたJARファイルを実行します：
+```bash
+java -cp target/myapp-1.0-SNAPSHOT.jar com.example.App
+```
+
+---
+
+## **まとめ**
+1. Mavenプロジェクトを作成。
+2. Javaコードを書いて、必要な設定（Javaバージョンや依存関係）を`pom.xml`に記述。
+3. `mvn compile`でコンパイル。
+4. `mvn exec:java`またはJARファイルをビルドして実行。
+
+これらの手順でMavenプロジェクト内でJavaコードをコンパイルし、実行できます。
+

@@ -103,4 +103,86 @@ mvn archetype:generate -DgroupId=com.example -DartifactId=my-app -DarchetypeArti
 ```
 
 BashでDockerコンテナを終了し、インストールしたものを保存するには以下の手順を実行します。
+### **1. コンテナを終了する**
+Dockerコンテナを終了するには、まずコンテナから抜けます。
 
+#### **方法**
+1. **コンテナ内で`exit`コマンドを実行**:
+   ```bash
+   exit
+   ```
+   - これにより、コンテナのセッションから抜け出し、ホスト環境に戻ります。
+   - コンテナは停止状態になります。
+
+2. **コンテナを明示的に停止**（必要に応じて）:
+   ```bash
+   docker stop <CONTAINER_IDまたはNAME>
+   ```
+   - 起動中のコンテナIDや名前は以下のコマンドで確認できます。
+     ```bash
+     docker ps
+     ```
+### **2. コンテナの状態を保存する**
+変更した内容やインストールしたパッケージを保存するために、現在のコンテナ状態をDockerイメージとして保存します。
+
+#### **手順**
+1. **現在のコンテナIDまたは名前を確認**:
+   ```bash
+   docker ps -a
+   ```
+2. **`docker commit`でイメージとして保存**:
+   ```bash
+   docker commit <CONTAINER_ID> <REPOSITORY_NAME>:<TAG>
+   ```
+   - 例:
+     ```bash
+     docker commit abc123def456 my_saved_image:latest
+     ```
+   - `my_saved_image`という名前で、現在のコンテナ状態がイメージとして保存されます。
+
+3. **保存したイメージを確認**:
+   ```bash
+   docker images
+   ```
+   - 出力例:
+     ```
+     REPOSITORY       TAG       IMAGE ID       CREATED          SIZE
+     my_saved_image   latest    789abc123def   10 seconds ago   200MB
+     ```
+### **3. 保存したイメージから再利用**
+保存したイメージを使って新しいコンテナを作成できます。
+
+#### **手順**
+1. 新しいコンテナを作成して起動:
+   ```bash
+   docker run -it --name <NEW_CONTAINER_NAME> <REPOSITORY_NAME>:<TAG>
+   ```
+2. コンテナ内で変更が反映されていることを確認します。
+
+### **4. 別環境への移行（オプション）**
+保存したイメージを別の環境で利用する場合は、以下の手順で進めます。
+
+#### **手順**
+1. イメージをファイルとしてエクスポート:
+   ```bash
+   docker save -o <FILE_NAME>.tar <REPOSITORY_NAME>:<TAG>
+   ```
+2. ファイルを別のサーバに転送（例: `scp`コマンド）:
+   ```bash
+   scp my_saved_image.tar user@remote-server:/path/to/destination/
+   ```
+3. 別環境でイメージをインポート:
+   ```bash
+   docker load -i /path/to/destination/my_saved_image.tar
+   ```
+4. インポートしたイメージから新しいコンテナを作成して起動:
+   ```bash
+   docker run -it --name new-container my_saved_image:latest
+   ```
+### **5. 注意点**
+- **ディスクスペース**: 保存したイメージが大きくなる場合があるため、不要なファイルやキャッシュは削除しておくと良いです。
+- **バージョン管理**: イメージにタグ（例: `v1`, `v2`）を付けることでバージョン管理が容易になります。
+  ```bash
+  docker tag my_saved_image:latest my_saved_image:v1
+  ```
+これらの手順で、Dockerコンテナの状態を安全に保存しつつ終了し、後から再利用できるようになります。

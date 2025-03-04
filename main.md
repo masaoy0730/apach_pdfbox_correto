@@ -339,3 +339,111 @@ root@<container_id>:/#
    docker exec -it <コンテナ名> /bin/bash
    ```
 これでターミナルから再びコンテナ内でBashを使った操作が可能になります。
+
+Javaで`HelloWorld.java`を実行する方法は以下の手順です。
+
+
+### **1. ソースコードの準備**
+まず、以下の内容で`HelloWorld.java`という名前のファイルを作成します。
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+- **ポイント**:
+  - `HelloWorld`はクラス名であり、ファイル名（`HelloWorld.java`）と一致させる必要があります。
+  - `main`メソッドがプログラムのエントリーポイントです。
+
+### **2. コンパイル**
+Javaソースコードをコンパイルしてバイトコード（`.class`ファイル）を生成します。
+
+#### **コマンド**
+```bash
+javac HelloWorld.java
+```
+
+- **結果**:
+  - 成功すると、同じディレクトリに`HelloWorld.class`というファイルが生成されます。
+  - エラーが出た場合は、ソースコードや環境設定を確認してください。
+
+---
+
+### **3. 実行**
+コンパイルされたクラスファイル（`.class`）を実行します。
+
+#### **コマンド**
+```bash
+java HelloWorld
+```
+
+- **注意**:
+  - `java`コマンドでは拡張子（`.class`）を付けずにクラス名だけを指定します。
+  - 実行時に「Hello, World!」と表示されれば成功です。
+
+---
+
+### **4. 実行環境の確認**
+以下の環境が整っていることを確認してください。
+
+1. **JDKがインストールされていること**:
+   - 確認コマンド：
+     ```bash
+     java -version
+     javac -version
+     ```
+   - 正常にインストールされていれば、バージョン情報が表示されます。
+
+2. **Javaのパス設定**:
+   - 環境変数`JAVA_HOME`が正しく設定されている必要があります。
+   - 必要に応じて以下のコマンドでパスを設定してください：
+     ```bash
+     export JAVA_HOME=/path/to/jdk
+     export PATH=$JAVA_HOME/bin:$PATH
+     ```
+
+---
+
+### **5. 注意点**
+- **ファイル名とクラス名が一致していること**:
+  ファイル名が`HelloWorld.java`でない場合、コンパイルエラーになります。
+  
+- **カレントディレクトリの確認**:
+  コンパイル・実行時には、ターミナルでファイルが保存されているディレクトリに移動しておく必要があります。
+  ```bash
+  cd /path/to/your/file
+  ```
+
+- **エラー例と対処**:
+  - エラー: `Error: Could not find or load main class HelloWorld`
+    - 対処: クラスパスやファイル名を確認してください。正しいディレクトリで実行しているかもチェックしましょう。
+
+---
+
+### **6. コマンドライン引数付きで実行（オプション）**
+Javaプログラムに引数を渡す場合は、以下のように実行します。
+
+#### **コマンド**
+```bash
+java HelloWorld arg1 arg2 arg3
+```
+
+#### **サンプルコード**
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        for (String arg : args) {
+            System.out.println(arg);
+        }
+    }
+}
+```
+
+#### **結果**
+```bash
+$ java HelloWorld Hello Java World
+Hello
+Java
+World
+```

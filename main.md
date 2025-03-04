@@ -1,4 +1,4 @@
-# MacでAmazon CorrettoをDocker上で動かす方法
+# Amazon CorrettoをDockerで動かす方法
 ## 前提条件
 1.Docker Desktop for Macがインストールされていること。
 2.Amazon CorrettoのDockerイメージを使用するための基本的なコマンドライン操作が可能であること。
@@ -101,4 +101,6 @@ Mavenプロジェクトの作成
 ```
 mvn archetype:generate -DgroupId=com.example -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 ```
+
+BashでDockerコンテナを終了し、インストールしたものを保存するには以下の手順を実行します。
 

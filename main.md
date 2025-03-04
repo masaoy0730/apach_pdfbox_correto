@@ -26,6 +26,19 @@ docker run -it --name corretto-container amazoncorretto:11 /bin/bash
 java -version
 ```
 
+2. sudoのインストール方法
+もし`sudo`がインストールされていない場合、以下の手順でインストールできます。
+Amazon Linux 2の場合
+1.	`yum`を使用してインストール：
+```
+yum install -y sudo
+```
+```
+sudo --version
+```
+ 
+
+
 ### Apach Mavenのインストール
 Bashを使ってLinux環境にMavenをインストールする手順。
 
@@ -83,5 +96,9 @@ sudo yum install tar
 ```
 sudo tar -xzvf apache-maven-3.9.9-bin.tar.gz -C /opt/
 sudo ln -s /opt/apache-maven-3.9.9 /opt/maven
-
 ```
+Mavenプロジェクトの作成
+```
+mvn archetype:generate -DgroupId=com.example -DartifactId=my-app -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+```
+

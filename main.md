@@ -1,7 +1,9 @@
 # Amazon CorrettoをDockerで動かす方法
+Apache PDFBoxでテストする必要があり、Javaの環境が必要だったので、Amazon Correttoを使うことにしました。
+
 ## 前提条件
 1.Docker Desktop for Macがインストールされていること。
-2.Amazon CorrettoのDockerイメージを使用するための基本的なコマンドライン操作が可能であること。
+1.Amazon CorrettoのDockerイメージを使用するための基本的なコマンドライン操作が可能であること。
 
 Finderから「Docker.app」を起動し、Dockerが正常に動作していることを確認します。
 ターミナルで以下のコマンドを実行し、Dockerがインストールされているか確認します：

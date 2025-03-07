@@ -630,3 +630,147 @@ echo $PATH
 ```
 export PATH=/usr/share/maven/bin:$PATH
 ```
+Mavenを `/opt` にインストールし、プロジェクトディレクトリ `/app/myapp` で使用できるようにするには、以下の手順を実施してください。
+
+---
+
+### **1. 環境変数を設定**
+Mavenをコマンドラインで使用するために、環境変数 `PATH` に Maven の `bin` ディレクトリを追加します。
+
+#### **手順**
+1. `/opt/apache-maven-3.9.9/bin` を `PATH` に追加：
+   ```bash
+   export PATH=/opt/apache-maven-3.9.9/bin:$PATH
+   ```
+   - このコマンドを実行すると、現在のセッションで Maven が使用可能になります。
+
+2. 永続的に設定する場合は、以下のファイルに記述します：
+   - **`~/.bashrc`** または **`~/.bash_profile`** を編集：
+     ```bash
+     echo 'export PATH=/opt/apache-maven-3.9.9/bin:$PATH' >> ~/.bashrc
+     ```
+   - 設定を反映させる：
+     ```bash
+     source ~/.bashrc
+     ```
+
+3. 設定が正しく反映されたか確認：
+   ```bash
+   mvn -v
+   ```
+   - 出力例：
+     ```
+     Apache Maven 3.9.9 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+     Maven home: /opt/apache-maven-3.9.9
+     Java version: 11.0.16, vendor: Oracle Corporation
+     Java home: /usr/lib/jvm/java-11-openjdk-amd64
+     ```
+
+---
+
+### **2. Java環境を確認**
+MavenはJavaを必要とするため、Javaがインストールされているか確認し、必要であれば設定します。
+
+#### **手順**
+1. Javaのインストール状況を確認：
+   ```bash
+   java -version
+   ```
+   - 正常な出力例：
+     ```
+     java version "11.0.16" 2025-01-15 LTS
+     Java(TM) SE Runtime Environment (build 11.0.16+8-LTS)
+     Java HotSpot(TM) 64-Bit Server VM (build 11.0.16+8-LTS, mixed mode)
+     ```
+
+2. `JAVA_HOME` を設定：
+   - Javaのインストールパスを確認：
+     ```bash
+     readlink -f $(which java) | sed "s:/bin/java::"
+     ```
+   - 環境変数に追加：
+     ```bash
+     export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+     export PATH=$JAVA_HOME/bin:$PATH
+     ```
+
+3. 永続的に設定する場合は、以下のファイルに記述します：
+   - **`~/.bashrc`** または **`~/.bash_profile`** を編集：
+     ```bash
+     echo 'export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64' >> ~/.bashrc
+     echo 'export PATH=$JAVA_HOME/bin:$PATH' >> ~/.bashrc
+     ```
+   - 設定を反映させる：
+     ```bash
+     source ~/.bashrc
+     ```
+
+---
+
+### **3. プロジェクトディレクトリで Maven を使用**
+プロジェクトディレクトリ `/app/myapp` に移動して Maven コマンドを実行します。
+
+#### **手順**
+1. プロジェクトディレクトリへ移動：
+   ```bash
+   cd /app/myapp
+   ```
+
+2. Mavenコマンドを実行してプロジェクトをビルド：
+   ```bash
+   mvn compile
+   ```
+   - 正常な出力例：
+     ```
+     [INFO] Scanning for projects...
+     [INFO] ------------------------------------------------------------------------
+     [INFO] BUILD SUCCESS
+     [INFO] ------------------------------------------------------------------------
+     ```
+
+---
+
+### **4. POMファイルの確認**
+Mavenプロジェクトには `pom.xml` が必要です。このファイルにはプロジェクトの設定が記述されています。
+
+#### **手順**
+1. プロジェクトディレクトリに `pom.xml` が存在するか確認：
+   ```bash
+   ls /app/myapp/pom.xml
+   ```
+
+2. 存在しない場合は新しいプロジェクトを作成：
+   ```bash
+   mvn archetype:generate \
+       -DgroupId=com.example \
+       -DartifactId=myapp \
+       -DarchetypeArtifactId=maven-archetype-quickstart \
+       -DinteractiveMode=false
+   ```
+
+---
+
+### **5. トラブルシューティング**
+
+#### **a. Mavenコマンドが見つからない場合**
+- 環境変数 `PATH` が正しく設定されていない可能性があります。
+- 再度以下のコマンドで確認してください：
+  ```bash
+  echo $PATH | grep apache-maven-3.9.9/bin
+  ```
+
+#### **b. Javaエラーが発生する場合**
+- `JAVA_HOME` が正しく設定されていない可能性があります。
+- 以下のコマンドで確認してください：
+  ```bash
+  echo $JAVA_HOME
+  ```
+
+---
+
+### **まとめ**
+1. Mavenのインストールディレクトリ `/opt/apache-maven-3.9.9/bin` を `PATH` に追加。
+2. Java環境 (`JAVA_HOME`) を正しく設定。
+3. プロジェクトディレクトリ `/app/myapp` に移動して Maven コマンドを実行。
+
+これらの手順で `/opt` にインストールした Maven を正常に使用できるようになります。

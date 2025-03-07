@@ -616,3 +616,17 @@ docker ps --filter "name=<部分一致文字列>" --format '{{.Names}}'
 | 名前でフィルタリング           | `docker ps --filter "name=nginx"`        |
 
 これらのコマンドで簡単にコンテナ名を確認できます。
+
+### mvnが見つからない時
+Mavenがインストールされているか確認。
+```
+which mvn
+```
+Mavenが正しくインストールされている場合でも、環境変数 `PATH` や `JAVA_HOME` が正しく設定されていないと動作しません。`PATH` に Maven の実行ファイルディレクトリ（例: `/usr/share/maven/bin`）が含まれているか確認します：
+```
+echo $PATH
+```
+含まれていなければ、以下を実行。
+```
+export PATH=/usr/share/maven/bin:$PATH
+```

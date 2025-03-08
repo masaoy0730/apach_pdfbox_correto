@@ -271,8 +271,7 @@ import java.io.File;
 
 public class App {
     public static void main(String[] args) {
-       // Path filePath = Path.of("/app/myapp/example.pdf"); // 読み込むPDFファイルのパス
-       File file = new File("/app/myapp/case_neuron_toinx.pdf");
+       File file = new File("/app/myapp/example.pdf");
        try {
 	    PDDocument document = Loader.loadPDF(file);
 	    PDFTextStripper textStripper = new PDFTextStripper();

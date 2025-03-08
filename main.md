@@ -69,7 +69,7 @@ echo $JAVA_HOME
 curl -OL https://downloads.apache.org/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
 ```
 
-ダウンロードしたアーカイブを解凍し、`/opt`に配置。シンボリックリンク `/opt/maven` を作成しておくと、将来バージョンを切り替える際に便利です。
+ダウンロードしたアーカイブを解凍し、`/opt`に配置。シンボリックリンク `/opt/maven` を作成しておくと、将来バージョンを切り替える際に便利。
 ```
 sudo tar -xzvf apache-maven-3.9.9-bin.tar.gz -C /opt/
 sudo ln -s /opt/apache-maven-3.9.9 /opt/maven
@@ -137,15 +137,6 @@ Dockerコンテナを終了するには、まずコンテナから抜けます�
 2. コンテナ内で変更が反映されていることを確認します。
 
 
-### **4. 注意点**
-- **ディスクスペース**: 保存したイメージが大きくなる場合があるため、不要なファイルやキャッシュは削除しておくと良いです。
-- **バージョン管理**: イメージにタグ（例: `v1`, `v2`）を付けることでバージョン管理が容易になります。
-  ```bash
-  docker tag my_saved_image:latest my_saved_image:v1
-  ```
-これらの手順で、Dockerコンテナの状態を安全に保存しつつ終了し、後から再利用できるようになります。
-
-
 Dockerコンテナを再起動するには、以下の方法を使用します。
 ### **1. 再起動コマンド**
 Dockerコンテナを再起動するには、`docker restart`または`docker container restart`コマンドを使用します。
@@ -164,19 +155,6 @@ docker restart <コンテナ名またはコンテナID>
 docker container restart <コンテナ名またはコンテナID>
 ```
 
-#### **使用例**
-- コンテナ名が`my-container`の場合:
-  ```bash
-  docker restart my-container
-  ```
-
-- コンテナIDが`abc123def456`の場合:
-  ```bash
-  docker restart abc123def456
-  ```
-
----
-
 ### **4. コンテナの状態確認**
 再起動前後にコンテナの状態を確認するには、以下のコマンドを使用します。
 
@@ -191,77 +169,13 @@ docker ps -a
 ```
 
 Dockerコンテナを再起動した後、ターミナルから`bash`を使うには、以下の手順を実行します。
-### **1. コンテナを再起動**
-まず、停止中または実行中のコンテナを再起動します。
-```bash
-docker restart <コンテナ名またはコンテナID>
-```
-### **2. コンテナ内で`bash`を使用する**
+### **コンテナ内で`bash`を使用する**
 再起動したコンテナ内で`bash`を使用するには、`docker exec`コマンドを使います。
 ```bash
 docker exec -it <コンテナ名またはコンテナID> /bin/bash
 ```
 
-#### **例**
-```bash
-docker exec -it my-container /bin/bash
-```
-
-- **`-i`**: 標準入力を有効化（対話的操作）。
-- **`-t`**: 仮想端末（TTY）を割り当て。
-- **`/bin/bash`**: コンテナ内で実行するシェルコマンド。
-
----
-
-### **3. コンテナ内での操作**
-上記コマンドを実行すると、コンテナ内に入ってBashプロンプトが表示されます。
-
-#### **例**
-```bash
-root@<container_id>:/#
-```
-
-ここから通常のLinuxシェル操作が可能になります。
-
----
-
-### **4. 注意点**
-1. **Bashがインストールされていない場合**:
-   - 一部の軽量なベースイメージ（例: Alpine Linux）ではBashがインストールされていない場合があります。その場合は、以下のようにBashをインストールしてください。
-     ```bash
-     apk add --no-cache bash
-     ```
-   - または、代わりに`sh`などの軽量シェルを使用します。
-     ```bash
-     docker exec -it my-container /bin/sh
-     ```
-
-2. **再起動前に保存したデータ**:
-   - 再起動しても、通常はデータやインストール済みのアプリケーションは保持されます。ただし、一時的なコンテナ（`--rm`オプション付きで起動したもの）は再利用できません。
-
-3. **コンテナが終了している場合**:
-   - 再起動前にコンテナが停止しているか確認します。
-     ```bash
-     docker ps -a
-     ```
-   - 停止中の場合は、まず以下のコマンドで開始してください。
-     ```bash
-     docker start <コンテナ名またはコンテナID>
-     ```
-### **まとめ**
-1. コンテナを再起動：
-   ```bash
-   docker restart <コンテナ名>
-   ```
-2. 再起動後にBashで操作：
-   ```bash
-   docker exec -it <コンテナ名> /bin/bash
-   ```
-これでターミナルから再びコンテナ内でBashを使った操作が可能になります。
-
-Javaで`HelloWorld.java`を実行する方法は以下の手順です。
-
-
+### Javaの実行
 ### **1. ソースコードの準備**
 まず、以下の内容で`HelloWorld.java`という名前のファイルを作成します。
 ```java
@@ -271,10 +185,6 @@ public class HelloWorld {
     }
 }
 ```
-- **ポイント**:
-  - `HelloWorld`はクラス名であり、ファイル名（`HelloWorld.java`）と一致させる必要があります。
-  - `main`メソッドがプログラムのエントリーポイントです。
-
 ### **2. コンパイル**
 Javaソースコードをコンパイルしてバイトコード（`.class`ファイル）を生成します。
 
@@ -283,12 +193,6 @@ Javaソースコードをコンパイルしてバイトコード（`.class`フ�
 javac HelloWorld.java
 ```
 
-- **結果**:
-  - 成功すると、同じディレクトリに`HelloWorld.class`というファイルが生成されます。
-  - エラーが出た場合は、ソースコードや環境設定を確認してください。
-
----
-
 ### **3. 実行**
 コンパイルされたクラスファイル（`.class`）を実行します。
 
@@ -296,12 +200,6 @@ javac HelloWorld.java
 ```bash
 java HelloWorld
 ```
-
-- **注意**:
-  - `java`コマンドでは拡張子（`.class`）を付けずにクラス名だけを指定します。
-  - 実行時に「Hello, World!」と表示されれば成功です。
-
----
 
 ### **4. 実行環境の確認**
 以下の環境が整っていることを確認してください。
@@ -321,9 +219,6 @@ java HelloWorld
      export JAVA_HOME=/path/to/jdk
      export PATH=$JAVA_HOME/bin:$PATH
      ```
-
----
-
 ### **5. 注意点**
 - **ファイル名とクラス名が一致していること**:
   ファイル名が`HelloWorld.java`でない場合、コンパイルエラーになります。
@@ -334,50 +229,14 @@ java HelloWorld
   cd /path/to/your/file
   ```
 
-- **エラー例と対処**:
-  - エラー: `Error: Could not find or load main class HelloWorld`
-    - 対処: クラスパスやファイル名を確認してください。正しいディレクトリで実行しているかもチェックしましょう。
-
----
-
-### **6. コマンドライン引数付きで実行（オプション）**
-Javaプログラムに引数を渡す場合は、以下のように実行します。
-
-#### **コマンド**
-```bash
-java HelloWorld arg1 arg2 arg3
-```
-
-#### **サンプルコード**
-```java
-public class HelloWorld {
-    public static void main(String[] args) {
-        for (String arg : args) {
-            System.out.println(arg);
-        }
-    }
-}
-```
-
-#### **結果**
-```bash
-$ java HelloWorld Hello Java World
-Hello
-Java
-World
-```
-
-MavenプロジェクトでJavaをコンパイルして実行するには、以下の手順を実行します。
-
----
-
+### MavenプロジェクトでJavaをコンパイルして実行するには、以下の手順を実行します。
+PDFBoxはMavenプロジェクトで環境を作って実行する。
 ## **1. Mavenプロジェクトの作成**
 Mavenプロジェクトを作成するには、以下のコマンドを使用します。
 
 ```bash
 mvn archetype:generate -DgroupId=com.example -DartifactId=myapp -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
 ```
-
 - `groupId`: プロジェクトのグループ名（例: `com.example`）。
 - `artifactId`: プロジェクト名（例: `myapp`）。
 
@@ -409,56 +268,33 @@ public class App {
 }
 ```
 
----
-
 ## **3. `pom.xml`の設定**
 `pom.xml`にJavaバージョンや依存関係を設定します。
 
 ### **基本的な設定例**
-```xml
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <groupId>com.example</groupId>
-    <artifactId>myapp</artifactId>
-    <version>1.0-SNAPSHOT</version>
-
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <dependencies>
-        <!-- 必要な依存関係をここに追加 -->
-    </dependencies>
-</project>
-```
-
-- `<maven.compiler.source>`と`<maven.compiler.target>`でJavaバージョン（例: 11）を指定します。
-
----
-
-## **4. Javaコードをコンパイル**
-以下のコマンドでプロジェクトをコンパイルします：
-
-```bash
-mvn compile
-```
-
-- コンパイルが成功すると、生成されたクラスファイルは`target/classes`ディレクトリに保存されます。
-
----
-
-## **5. Javaコードを実行**
 Mavenで直接Javaコードを実行するには、`exec-maven-plugin`を使用します。
 
-### **`pom.xml`へのプラグイン追加**
-以下のプラグイン設定を`pom.xml`に追加します：
 ```xml
-<build>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example</groupId>
+  <artifactId>myapp</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>myapp</name>
+  <url>http://maven.apache.org</url>
+  <build>
     <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version> <!-- 最新バージョンを指定 -->
+            <configuration>
+                <source>11</source> <!-- 使用するJavaバージョン -->
+                <target>11</target>
+            </configuration>
+        </plugin>
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -467,122 +303,56 @@ Mavenで直接Javaコードを実行するには、`exec-maven-plugin`を使用�
                 <mainClass>com.example.App</mainClass>
             </configuration>
         </plugin>
+	<plugin>
+           <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <version>3.2.2</version>
+            <configuration>
+                <archive>
+		  <manifest>
+		    <mainClass>com.example.App</mainClass>
+		  </manifest>
+		</archive>
+            </configuration>
+        </plugin>
     </plugins>
 </build>
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+   <dependency>
+    <groupId>org.apache.pdfbox</groupId>
+    <artifactId>pdfbox</artifactId>
+    <version>3.0.4</version>
+   </dependency>
+  </dependencies>
+</project>
 ```
 
+## **4. Javaコードをコンパイル**
+以下のコマンドでプロジェクトをコンパイルします：
+
+```bash
+mvn compile
+```
+- コンパイルが成功すると、生成されたクラスファイルは`target/classes`ディレクトリに保存されます。
+```
+bash-4.2# ls target/classes/com/example/App.class
+target/classes/com/example/App.class
+```
+
+## **5. Javaコードを実行**
 ### **実行コマンド**
 以下のコマンドでJavaコードを実行します：
 ```bash
 mvn exec:java
 ```
 
----
-
-## **6. 実行可能JARファイルの作成と実行（オプション）**
-JavaアプリケーションをJARファイルとしてビルドし、実行可能にすることもできます。
-
-### **JARファイルのビルド**
-以下のコマンドでJARファイルを作成します：
-```bash
-mvn package
-```
-
-- 成功すると、`target/`ディレクトリ内にJARファイルが生成されます（例: `myapp-1.0-SNAPSHOT.jar`）。
-
-### **JARファイルの実行**
-以下のコマンドで生成されたJARファイルを実行します：
-```bash
-java -cp target/myapp-1.0-SNAPSHOT.jar com.example.App
-```
-
----
-
-## **まとめ**
-1. Mavenプロジェクトを作成。
-2. Javaコードを書いて、必要な設定（Javaバージョンや依存関係）を`pom.xml`に記述。
-3. `mvn compile`でコンパイル。
-4. `mvn exec:java`またはJARファイルをビルドして実行。
-
-これらの手順でMavenプロジェクト内でJavaコードをコンパイルし、実行できます。
-
 Dockerコンテナの名前を確認する方法は、以下のコマンドを使用します。
-
----
-
-### **1. 基本的な方法**
-#### **起動中のコンテナの名前を確認**
-```bash
-docker ps --format '{{.Names}}'
-```
-- **説明**:
-  - `docker ps` は起動中のコンテナ一覧を表示します。
-  - `--format '{{.Names}}'` オプションを使うことで、コンテナ名のみを抽出できます。
-
-#### **すべてのコンテナ（停止中も含む）の名前を確認**
-```bash
-docker ps -a --format '{{.Names}}'
-```
-- **説明**:
-  - `-a` オプションを付けることで、停止中も含めたすべてのコンテナを対象にします。
-
----
-
-### **2. コンテナ名とIDを同時に確認**
-```bash
-docker ps --format '{{.ID}} {{.Names}}'
-```
-- **説明**:
-  - コンテナIDと名前を同時に表示する場合に便利です。
-
----
-
-### **3. `awk` を使った方法**
-#### **コンテナ名のみ抽出**
-```bash
-docker ps | awk '{print $NF}'
-```
-- **説明**:
-  - `awk '{print $NF}'` は各行の最後のフィールド（コンテナ名）を抽出します。
-  - この方法は簡易的ですが、ヘッダー行も含まれるため注意が必要です。
-
-#### **ヘッダー行を除外してコンテナ名抽出**
-```bash
-docker ps | awk 'NR>1 {print $NF}'
-```
-- **説明**:
-  - `NR>1` によって、1行目（ヘッダー）を除外します。
-
----
-
-### **4. シェルスクリプトで複数コンテナの情報取得**
-以下はシェルスクリプトでコンテナ名とIDを取得する例です：
-
-```bash
-#!/bin/bash
-
-for container in $(docker ps -q --format '{{.ID}},{{.Names}}'); do
-  IFS=',' read -r container_id container_name <<< "$container"
-  echo "ID: $container_id, Name: $container_name"
-done
-```
-- **説明**:
-  - `docker ps -q --format '{{.ID}},{{.Names}}'` を使い、コンテナIDと名前をカンマ区切りで取得。
-  - `IFS=','` を使ってカンマ区切りの値を分割し、それぞれ表示します。
-
----
-
-### **5. コンテナ名でフィルタリング**
-特定の名前や条件でフィルタリングする場合：
-```bash
-docker ps --filter "name=<部分一致文字列>" --format '{{.Names}}'
-```
-- **例**: 名前に "nginx" を含むコンテナだけ表示する場合：
-  ```bash
-  docker ps --filter "name=nginx" --format '{{.Names}}'
-  ```
-
----
 
 ### **まとめ**
 以下は用途ごとのコマンド例です：
@@ -609,8 +379,6 @@ echo $PATH
 export PATH=/usr/share/maven/bin:$PATH
 ```
 Mavenを `/opt` にインストールし、プロジェクトディレクトリ `/app/myapp` で使用できるようにするには、以下の手順を実施してください。
-
----
 
 ### **1. 環境変数を設定**
 Mavenをコマンドラインで使用するために、環境変数 `PATH` に Maven の `bin` ディレクトリを追加します。
@@ -643,8 +411,6 @@ Mavenをコマンドラインで使用するために、環境変数 `PATH` に 
      Java version: 11.0.16, vendor: Oracle Corporation
      Java home: /usr/lib/jvm/java-11-openjdk-amd64
      ```
-
----
 
 ### **2. Java環境を確認**
 MavenはJavaを必要とするため、Javaがインストールされているか確認し、必要であれば設定します。
@@ -682,9 +448,7 @@ MavenはJavaを必要とするため、Javaがインストールされている�
      ```bash
      source ~/.bashrc
      ```
-
----
-
+     
 ### **3. プロジェクトディレクトリで Maven を使用**
 プロジェクトディレクトリ `/app/myapp` に移動して Maven コマンドを実行します。
 
@@ -744,8 +508,6 @@ Mavenプロジェクトには `pom.xml` が必要です。このファイルに�
   echo $JAVA_HOME
   ```
 
----
-
 ### **まとめ**
 1. Mavenのインストールディレクトリ `/opt/apache-maven-3.9.9/bin` を `PATH` に追加。
 2. Java環境 (`JAVA_HOME`) を正しく設定。
@@ -769,4 +531,21 @@ DX戦略においては、社内の取り組みで蓄積した知見やノウハ
 「ITで、感動を、ともに。」をスローガンに、東北のIT業界のリーダーと
 して、東北電力グループをはじめとする地域のお客さまの情報シス
 テムの開発・保守・運用を支えている株式会社トインクス。 
+```
+
+DockerでAmazon Corretto 11を使用している場合、Linux自体のアップデートは通常必要ありません。
+### **2. Amazon Correttoのアップデート**
+- Amazon Correttoは四半期ごとにアップデートが提供されます。セキュリティ修正やバグ修正はこのアップデートに含まれています。
+- 最新バージョンを利用するには、新しいDockerイメージを取得して再構築するだけで十分です。
+
+#### 最新イメージ取得コマンド:
+```bash
+docker pull amazoncorretto:11
+```
+
+#### 古いコンテナを削除して新しいコンテナを起動:
+```bash
+docker stop <container_id>
+docker rm <container_id>
+docker run -it --name my-corretto amazoncorretto:11 /bin/bash
 ```

@@ -174,8 +174,10 @@ Dockerコンテナを再起動した後、ターミナルから`bash`を使う�
 ```bash
 docker exec -it <コンテナ名またはコンテナID> /bin/bash
 ```
-
+---
 ### Javaの実行
+Javaの実行はHelloWorldで確認します。
+
 ### **1. ソースコードの準備**
 まず、以下の内容で`HelloWorld.java`という名前のファイルを作成します。
 ```java
@@ -228,6 +230,7 @@ java HelloWorld
   ```bash
   cd /path/to/your/file
   ```
+---
 
 ### MavenプロジェクトでJavaをコンパイルして実行するには、以下の手順を実行します。
 PDFBoxはMavenプロジェクトで環境を作って実行する。
@@ -351,6 +354,39 @@ Mavenで直接Javaコードを実行するには、`exec-maven-plugin`を使用�
   </dependencies>
 </project>
 ```
+### ファイルのコピー
+MacのローカルフォルダからDockerコンテナ内にファイルをコピーするには、`docker cp`コマンドを使用します。以下は具体的なコマンド例です。
+
+---
+
+### **コマンド構文**
+```bash
+docker cp [ローカルのファイルパス] [コンテナ名]:[コンテナ内のコピー先パス]
+```
+
+---
+
+### **具体例**
+例えば、Macのローカルフォルダにある`~/Documents/sample.txt`というファイルを、Dockerコンテナ`my-container`内の`/app`ディレクトリにコピーする場合：
+
+```bash
+docker cp ~/Documents/sample.txt my-container:/app/sample.txt
+```
+
+- **`~/Documents/sample.txt`**: ローカルのコピー元ファイル。
+- **`my-container`**: コピー先のDockerコンテナ名またはID。
+- **`/app/sample.txt`**: コンテナ内のコピー先パス。
+
+---
+- コピー元がディレクトリの場合、指定したフォルダ全体がそのままコピーされます。
+---
+
+### **注意点**
+1. **コンテナが実行中でなくてもコピー可能**  
+   `docker cp`はコンテナが停止中でも使用できます。   
+---
+これで、MacからDockerコンテナへのファイルコピーが簡単に実行できます！
+
 
 ## **4. Javaコードをコンパイル**
 以下のコマンドでプロジェクトをコンパイルします：
